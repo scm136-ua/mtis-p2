@@ -1,0 +1,14 @@
+La consola central se ha creado en Python usando stomp para acceder a activemq
+Para lanzarla:
+
+La oficina 1 ha sido creada con Java, que usa activemq en sí, compilada con:
+javac -cp "C:\MTIS\apache-activemq-5.15.8\activemq-all-5.15.8.jar" mtis\Oficina1.java
+
+Para lanzarla con:
+java -cp "C:\MTIS\apache-activemq-5.15.8\activemq-all-5.15.8.jar;." mtis.Oficina1
+
+La oficina 2 ha sido creada con JavaScript, usando 'stomp-client.
+Para lanzarla:
+node oficina2.js
+
+PPara activemq usamos el activemq64.bat

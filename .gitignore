@@ -1,0 +1,18 @@
+# Node
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+# Java compilado
+*.class
+
+# IDEs
+.vscode/
+.idea/
+*.iml

@@ -1,0 +1,24 @@
+{
+  "name": "mtis-p2",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000m\u0000t\u0000i\u0000s\u0000-\u0000p\u00002\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scm136-ua/mtis-p2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/scm136-ua/mtis-p2/issues"
+  },
+  "homepage": "https://github.com/scm136-ua/mtis-p2#readme",
+  "dependencies": {
+    "stomp-client": "^0.9.0"
+  }
+}
