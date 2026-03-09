@@ -51,22 +51,21 @@ def evaluar_y_actuar():
         if temp is not None:
             if temp > LIMITES['temp_max']:
                 orden = json.dumps({"oficina": ofi, "tipo": "temperatura", "accion": "enfriar"})
-                conn.send(body=orden, destination=config.TOPIC_ACTUADOR_TEMP)
+                conn.send(body=orden, destination=config.TOPIC_ACTUADOR_TEMP, headers={'content-type': 'text/plain'})
                 print(f"[ALERTA] Ofi {ofi}: Temp Alta ({temp}°C). Orden: enfriar.")
             elif temp < LIMITES['temp_min']:
                 orden = json.dumps({"oficina": ofi, "tipo": "temperatura", "accion": "calentar"})
-                conn.send(body=orden, destination=config.TOPIC_ACTUADOR_TEMP)
-                print(f"[ALERTA] Ofi {ofi}: Temp Baja ({temp}°C). Orden: calentar.")
+                conn.send(body=orden, destination=config.TOPIC_ACTUADOR_TEMP, headers={'content-type': 'text/plain'})
                 
         # Control de Iluminación
         if ilum is not None:
             if ilum > LIMITES['ilum_max']:
                 orden = json.dumps({"oficina": ofi, "tipo": "iluminacion", "accion": "bajar"})
-                conn.send(body=orden, destination=config.TOPIC_ACTUADOR_ILUM)
+                conn.send(body=orden, destination=config.TOPIC_ACTUADOR_ILUM, headers={'content-type': 'text/plain'})
                 print(f"[ALERTA] Ofi {ofi}: Luz Alta ({ilum} lm). Orden: bajar.")
             elif ilum < LIMITES['ilum_min']:
                 orden = json.dumps({"oficina": ofi, "tipo": "iluminacion", "accion": "subir"})
-                conn.send(body=orden, destination=config.TOPIC_ACTUADOR_ILUM)
+                conn.send(body=orden, destination=config.TOPIC_ACTUADOR_ILUM, headers={'content-type': 'text/plain'})
                 print(f"[ALERTA] Ofi {ofi}: Luz Baja ({ilum} lm). Orden: subir.")
 
 try:

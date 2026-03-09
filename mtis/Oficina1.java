@@ -60,29 +60,37 @@ public class Oficina1 implements MessageListener {
     @Override
     public void onMessage(Message msg) {
         try {
+            String text = "";
+            
+            // Comprobamos si nos llega como Texto o como Bytes desde Python
             if (msg instanceof TextMessage) {
-                String text = ((TextMessage) msg).getText();
-                System.out.println("[OFICINA 1] Mensaje RAW recibido: " + text);
+                text = ((TextMessage) msg).getText();
+            } else if (msg instanceof BytesMessage) {
+                BytesMessage bm = (BytesMessage) msg;
+                byte[] data = new byte[(int) bm.getBodyLength()];
+                bm.readBytes(data);
+                text = new String(data, "UTF-8");
+            } else {
+                return; // Ignoramos silenciosamente formatos desconocidos
+            }
 
-                // Parseo manual — acepta JSON con o sin espacio tras ":"
-                boolean esOficina1 = text.contains("\"oficina\": 1") || text.contains("\"oficina\":1");
-                boolean esTemp     = text.contains("\"tipo\": \"temperatura\"") || text.contains("\"tipo\":\"temperatura\"");
-                boolean esIlum     = text.contains("\"tipo\": \"iluminacion\"") || text.contains("\"tipo\":\"iluminacion\"");
-                boolean esEnfriar  = text.contains("\"enfriar\"");
-                boolean esCalentar = text.contains("\"calentar\"");
-                boolean esBajar    = text.contains("\"bajar\"");
-                boolean esSubir    = text.contains("\"subir\"");
+            // Parseo manual
+            boolean esOficina1 = text.contains("\"oficina\": 1") || text.contains("\"oficina\":1");
+            boolean esTemp     = text.contains("\"tipo\": \"temperatura\"") || text.contains("\"tipo\":\"temperatura\"");
+            boolean esIlum     = text.contains("\"tipo\": \"iluminacion\"") || text.contains("\"tipo\":\"iluminacion\"");
+            boolean esEnfriar  = text.contains("\"enfriar\"");
+            boolean esCalentar = text.contains("\"calentar\"");
+            boolean esBajar    = text.contains("\"bajar\"");
+            boolean esSubir    = text.contains("\"subir\"");
 
-                if (esOficina1) {
-                    if (esTemp) {
-                        if (esEnfriar)       { temperatura -= 2.0; System.out.println("[OFICINA 1] Orden ENFRIAR ejecutada. Temp ahora: " + String.format("%.2f", temperatura) + "°C"); }
-                        else if (esCalentar) { temperatura += 2.0; System.out.println("[OFICINA 1] Orden CALENTAR ejecutada. Temp ahora: " + String.format("%.2f", temperatura) + "°C"); }
-                    } else if (esIlum) {
-                        if (esBajar)       { iluminacion -= 50; System.out.println("[OFICINA 1] Orden BAJAR LUZ ejecutada. Luz ahora: " + String.format("%.2f", iluminacion) + " lm"); }
-                        else if (esSubir)  { iluminacion += 50; System.out.println("[OFICINA 1] Orden SUBIR LUZ ejecutada. Luz ahora: " + String.format("%.2f", iluminacion) + " lm"); }
-                    }
-                } else {
-                    System.out.println("[OFICINA 1] Mensaje ignorado (no es para esta oficina).");
+            // Solo actuamos (e imprimimos) si el mensaje es para la Oficina 1
+            if (esOficina1) {
+                if (esTemp) {
+                    if (esEnfriar)       { temperatura -= 2.0; System.out.println("[OFICINA 1] Orden ENFRIAR ejecutada. Temp ahora: " + String.format("%.2f", temperatura) + "\u00B0C"); }
+                    else if (esCalentar) { temperatura += 2.0; System.out.println("[OFICINA 1] Orden CALENTAR ejecutada. Temp ahora: " + String.format("%.2f", temperatura) + "\u00B0C"); }
+                } else if (esIlum) {
+                    if (esBajar)       { iluminacion -= 50; System.out.println("[OFICINA 1] Orden BAJAR LUZ ejecutada. Luz ahora: " + String.format("%.2f", iluminacion) + " lm"); }
+                    else if (esSubir)  { iluminacion += 50; System.out.println("[OFICINA 1] Orden SUBIR LUZ ejecutada. Luz ahora: " + String.format("%.2f", iluminacion) + " lm"); }
                 }
             }
         } catch(Exception e) {
